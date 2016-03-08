@@ -22,6 +22,7 @@ class PlantController extends Controller
                 echo($json);
                 return;
             } else {
+                $cate_id = $str['categoryId'];
                 $page = $str['page'];
                 $size = $str['size'];
 
@@ -41,6 +42,7 @@ class PlantController extends Controller
                 echo($json);
                 return;
             } else {
+                $cate_id = $str['categoryId'];
                 $page = $str['page'];
                 $size = $str['size'];
             }
@@ -48,10 +50,14 @@ class PlantController extends Controller
         }
 
 //        echo(var_dump(I('post.')));
+        if (!isset($cate_id)) {
+            $json = createJson(0, "请输入类别!", "请输入植物类别!", null);
+            echo($json);
+            return;
+        }
 
         if (!isset($page)) {
             $json = createJson(0, "请输入页码!", "请输入页码!", null);
-
             echo($json);
             return;
         }
@@ -62,7 +68,7 @@ class PlantController extends Controller
 
 
         $plant = M('plant');// 实例化Data数据模型
-        $list = $plant->page($page, $size)->select();
+        $list = $plant->where('cate_id='.$cate_id)->page($page, $size)->select();
 
         if (count($list) > 0) {
 
