@@ -23,9 +23,9 @@ class BannerController extends Controller
             $detailMsg = '数据库暂无数据';
         
         }
-        $data = array('list' => $list, 'resCode' => $resCode, 'msg' => $msg, 'detailMsg' => $detailMsg);
 
-        $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $json = createJson($resCode, $msg, $detailMsg, $list);
+
         echo($json);
     }
 

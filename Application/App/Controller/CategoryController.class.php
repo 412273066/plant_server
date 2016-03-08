@@ -17,34 +17,52 @@ class CategoryController extends Controller
 
 
             if (json_last_error() != 0) {
-                echo("提交数据格式出错!");
+                $json = createJson(0, "提交数据格式出错!", "提交数据必须json格式!", null);
+
+                echo($json);
+                return;
             } else {
                 $page = $str['page'];
-                //var_dump($str);
-//                echo($page . '<br/>');
+                $size = $str['size'];
+
             }
 
 
         } else {
-            echo('请用post方法请求<br>');
+            // echo('请用post方法请求<br>');
             $requestJson = $_GET['json'];//获取get变量
 
             $str = json_decode($requestJson, true);
 
 
             if (json_last_error() != 0) {
-                echo("提交数据格式出错!");
+                $json = createJson(0, "提交数据格式出错!", "提交数据必须json格式!", null);
+
+                echo($json);
+                return;
             } else {
                 $page = $str['page'];
-                //var_dump($str);
-//                echo($page . '<br/>');
+                $size = $str['size'];
             }
+//            return;
+        }
+
+//        echo(var_dump(I('post.')));
+
+        if (!isset($page)) {
+            $json = createJson(0, "请输入页码!", "请输入页码!", null);
+
+            echo($json);
             return;
+        }
+        if (!isset($size)) {
+            //默认一页8个数据
+            $size = 8;
         }
 
 
         $category = M('category');// 实例化Data数据模型
-        $list = $category->page($page, 6)->select();
+        $list = $category->page($page, $size)->select();
 
         if (count($list) > 0) {
 
@@ -59,9 +77,8 @@ class CategoryController extends Controller
             $detailMsg = '数据库暂无数据';
 
         }
-        $data = array('list' => $list, 'resCode' => $resCode, 'msg' => $msg, 'detailMsg' => $detailMsg);
+        $json = createJson($resCode, $msg, $detailMsg, $list);
 
-        $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         echo($json);
     }
 
