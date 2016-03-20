@@ -12,10 +12,7 @@ class ArticleListController extends Controller
         if (IS_POST) {
             $requestJson = $_POST['json'];  // 获取post变量
 //            $requestJson = I('json',"","strip_tags");  // 必须加strip_tags获取post变量
-
-
             $str = json_decode($requestJson, true);
-
 
             if (json_last_error() != 0) {
                 $json = createJson(0, "提交数据格式出错!", "提交数据必须json格式!", null);
@@ -26,7 +23,6 @@ class ArticleListController extends Controller
                 $type_id = $str['typeId'];
                 $page = $str['page'];
                 $size = $str['size'];
-
             }
 
 
@@ -52,7 +48,6 @@ class ArticleListController extends Controller
 
 //        echo(var_dump(I('post.')));
 
-
         if (!isset($page)) {
             $json = createJson(0, "请输入页码!", "请输入页码!", null);
             echo($json);
@@ -63,13 +58,14 @@ class ArticleListController extends Controller
             $size = 8;
         }
 
+        $offset = $size * ($page - 1);
+
         $Model = new ArticleModel(); // 实例化一个model对象 没有对应任何数据表
+        //没有提交type_id则返回全部文章
         if (!isset($type_id)) {
-
-            $list = $Model->query("select title,summary,content,img,type_id,create_time from web_article ORDER BY create_time DESC");
-
-        }else{
-            $list = $Model->query("select title,summary,content,img,type_id,create_time from web_article where type_id=" . $type_id." ORDER BY create_time DESC");
+            $list = $Model->query("SELECT title,summary,content,img,type_id,create_time FROM web_article ORDER BY create_time DESC LIMIT " . $offset . "," . $size);
+        } else {
+            $list = $Model->query("SELECT title,summary,content,img,type_id,create_time FROM web_article WHERE type_id=" . $type_id . " ORDER BY create_time DESC LIMIT " . $offset . "," . $size);
         }
 
 //        var_dump($list);
