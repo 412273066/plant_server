@@ -57,15 +57,19 @@ class ArticleListController extends Controller
             //默认一页8个数据
             $size = 8;
         }
+        if (!isset($type_id)) {
+            //-1000则返回全部数据,默认返回全部数据
+            $type_id = -1000;
+        }
 
         $offset = $size * ($page - 1);
 
         $Model = new ArticleModel(); // 实例化一个model对象 没有对应任何数据表
         //没有提交type_id则返回全部文章
-        if (!isset($type_id)) {
-            $list = $Model->query("SELECT title,summary,content,img,type_id,create_time FROM web_article ORDER BY create_time DESC LIMIT " . $offset . "," . $size);
+        if ($type_id==-1000) {
+            $list = $Model->query("SELECT article_id,title,summary,content,img,type_id,create_time FROM web_article ORDER BY create_time DESC LIMIT " . $offset . "," . $size);
         } else {
-            $list = $Model->query("SELECT title,summary,content,img,type_id,create_time FROM web_article WHERE type_id=" . $type_id . " ORDER BY create_time DESC LIMIT " . $offset . "," . $size);
+            $list = $Model->query("SELECT article_id,title,summary,content,img,type_id,create_time FROM web_article WHERE type_id=" . $type_id . " ORDER BY create_time DESC LIMIT " . $offset . "," . $size);
         }
 
 //        var_dump($list);
