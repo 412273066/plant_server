@@ -67,9 +67,9 @@ class ArticleListController extends Controller
         $Model = new ArticleModel(); // 实例化一个model对象 没有对应任何数据表
         //没有提交type_id则返回全部文章
         if ($type_id==-1000) {
-            $list = $Model->query("SELECT article_id,title,summary,content,img,type_id,create_time FROM web_article ORDER BY create_time DESC LIMIT " . $offset . "," . $size);
+            $list = $Model->query("SELECT article_id,title,summary,content,web_article.img,web_article.type_id,web_article.create_time,type_name FROM web_article JOIN web_type ON web_article.type_id= web_type.type_id ORDER BY create_time DESC LIMIT " . $offset . "," . $size);
         } else {
-            $list = $Model->query("SELECT article_id,title,summary,content,img,type_id,create_time FROM web_article WHERE type_id=" . $type_id . " ORDER BY create_time DESC LIMIT " . $offset . "," . $size);
+            $list = $Model->query("SELECT article_id,title,summary,content,web_article.img,web_article.type_id,web_article.create_time,type_name FROM web_article JOIN web_type ON web_article.type_id= web_type.type_id WHERE web_article.type_id=" . $type_id . " ORDER BY create_time DESC LIMIT " . $offset . "," . $size);
         }
 
 //        var_dump($list);
