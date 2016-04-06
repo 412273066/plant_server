@@ -18,8 +18,8 @@
             <div class="content-wrap">
                 <div class="row mg-b">
                     <div class="col-xs-6">
-                        <h3 class="no-margin">Dashboard</h3>
-                        <small>Welcome back, Gary Stone</small>
+                        <small class="no-margin"></small>
+                        <small>欢迎回来,我的主人</small>
                     </div>
                     <div class="col-xs-6 text-right">
                         <a href="__PUBLIC__/admin/javascript:;" class="fa fa-th-list pull-right pd-sm toggle-sidebar"
@@ -78,7 +78,37 @@
                         </section>
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <section class="panel panel-color weather-widget">
+                            <div class="panel-body no-padding">
+                                <div class="row no-margin bg-color">
+                                    <div class="col-xs-6 bg-white pd-md">
+                                        <canvas id="icon2" width="60" height="60"></canvas>
+                                        <ul class="mg-t-sm">
+                                            <li>
+                                                <canvas id="icon3" width="18" height="18"></canvas>
+                                                <span>Sunny, 32&#176; C</span>
+                                            </li>
+                                            <li>
+                                                <canvas id="icon4" width="18" height="18"></canvas>
+                                                <span>3 Mp/h, NW</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-xs-6 bg-color no-padding">
+                                        <div class="current-date text-center">
+                                            <h1 class="no-margin text-white timer"></h1>
+                                            <small class="no-margin text-white date text-uppercase"></small>
+                                            <br>
+                                            <small class="fa fa-refresh text-white panel-refresh mg-t-sm"></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
             </div>
             <include file="public/bottom"/>
         </section>
