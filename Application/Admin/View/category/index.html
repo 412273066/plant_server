@@ -2,6 +2,20 @@
 <html class="no-js" lang="">
 
 <include file="public/head"/>
+<style type="text/css">
+    .table > thead > tr > th,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > tbody > tr > td,
+    .table > tfoot > tr > td {
+        padding: 8px;
+        line-height: 1.42857143;
+        vertical-align: middle;
+        text-align: center;
+        border-top: 1px solid #ddd
+    }
+</style>
 <body>
 
 <div class="app" data-sidebar="locked">
@@ -18,8 +32,9 @@
             <div class="content-wrap">
                 <div class="row mg-b">
                     <div class="col-xs-6">
-                        <h3 class="no-margin">Dashboard</h3>
-                        <small>Welcome back, Gary Stone</small>
+                        <h3 class="no-margin"></h3>
+                        <h4><a href="__ROOT__/admin" class="fa fa-home">首页</a>/<a href="">植物管理</a>/<a
+                                href="__CONTROLLER__">植物种类</a></h4>
                     </div>
                     <div class="col-xs-6 text-right">
                         <a href="__PUBLIC__/admin/javascript:;" class="fa fa-th-list pull-right pd-sm toggle-sidebar"
@@ -29,7 +44,45 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-md-12">
+                        <section class="panel">
+                            <div class="panel-body no-padding">
+                                <table class="table table-hover no-margin text-center">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>种类名字</th>
+                                        <th>图片</th>
+                                        <th>创建时间</th>
+                                        <th>管理员id</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="list" id="vo">
+                                        <tr>
+                                            <td>{$vo.cate_id}</td>
+                                            <td>{$vo.cate_name}</td>
+                                            <td><img
+                                                    src="{$vo.img}"
+                                                    alt="{$vo.cate_name}" width="70px" height="70px"></td>
+                                            <td>{$vo.create_time|date="Y-m-d H:m:s",###}</td>
+                                            <td>{$vo.user_id}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary">编辑</button>
+                                                <button type="button" class="btn btn-danger">删除</button>
+                                            </td>
+                                        </tr>
 
+
+                                    </volist>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
                 </div>
 
             </div>
