@@ -1,1 +1,0 @@
-<?php if (!defined('THINK_PATH')) exit();?>你好吗 世界
