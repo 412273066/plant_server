@@ -3,7 +3,7 @@ namespace Admin\Controller;
 
 use Think\Controller;
 
-class CategoryController extends Controller
+class CategoryController extends BaseController
 {
     private $create_fields = array('cate_name', 'img', 'user_id', 'create_time');
 
