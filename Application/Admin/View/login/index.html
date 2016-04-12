@@ -139,7 +139,7 @@
                 <header class="panel-heading text-center">后台管理系统</header>
                 <div class="bg-white user pd-md">
 
-                    <form role="form" action="{:U('index/dologin')}" method="post">
+                    <form role="form" method="post">
                         <input id="username" type="text" class="form-control mg-b-sm" placeholder="用户名" autofocus>
                         <input id="password" type="password" class="form-control" placeholder="密码">
                         <label class="checkbox pull-left">
@@ -175,14 +175,12 @@
             var p = $('#password').val();
             if (u == "") {
 
-                layer.msg('请输入用户名', function () {
-                })
+                alert('请输入用户名');
                 return false;
             }
             if (p == "") {
 
-                layer.msg('请输入密码', function () {
-                })
+                alert('请输入密码');
                 return false;
             }
             $.ajax({
@@ -195,9 +193,7 @@
                 dataType: 'json',
                 error: function () {
 
-                    layer.msg('无法访问数据库，请检查你的数据库配置', function () {
-                    })
-
+                    alert('无法访问数据库，请检查你的数据库配置');
                 },
                 success: function (data) {
 
@@ -206,7 +202,8 @@
                         location.href = data.url;
 
                     } else {
-                        layer.msg(data.msg)
+                        alert(data.user);
+                        alert(data.password);
                     }
                 }
             });

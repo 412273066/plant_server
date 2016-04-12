@@ -11,55 +11,57 @@ class LoginController extends BaseController
         $this->display();
     }
 
-    public function dologin(){
+    public function dologin()
+    {
 
-        $username = I('post.user');
-        $password = md5(I('post.password')) ;
+        $user = I('post.user');
+        $password = md5(I('post.password'));
 
-        if(empty($username)||empty($password)){
-            $data['error']=1;
-            $data['msg']="请输入帐号密码";
+        if (empty($user) || empty($password)) {
+            $data['error'] = 1;
+            $data['msg'] = "请输入帐号密码";
             $this->ajaxReturn($data);
 
         }
         $map = array();
-        $map['user'] = $username;
-        $map['state'] = 1;
+        $map['user'] = $user;
+        $map['status'] = 1;
 
-        $admin=D('admin');
+        $admin = D('user');
 
 
-        $adminInfo=$admin->where($map)->find();
+        $adminInfo = $admin->where($map)->find();
 
-        if($adminInfo){
-
-            if($adminInfo['password']!=$password){
-                $data['error']=1;
-                $data['msg']='帐号密码不正确';
+        if ($adminInfo) {
+             //注意回车空格
+            if ($adminInfo['password'] != $password) {
+                $data['error'] = 1;
+                $data['msg'] = '帐号密码不正确';
                 $this->ajaxReturn($data);
             }
 
-            session('last_login_time',date('Y-m-d H:i:s',$adminInfo['last_logintime']));
-            session('ip',$adminInfo['last_loginip']);
-            session('admin',$adminInfo);
+            session('last_login_time', date('Y-m-d H:i:s', $adminInfo['last_login_time']));
+            session('ip', $adminInfo['last_login_ip']);
+            session('admin', $adminInfo);
             $data = array();
-            $data['last_logintime']=time();
-            $data['last_loginip']="127.0.0.1";
-            $admin->where(array('id'=>$adminInfo['id']))->save($data);
-            $data1['error']=0;
-            $data1['url']=U('Index/index');
+            $data['last_login_time'] = time();
+            $data['last_login_ip'] = "127.0.0.1";
+            $admin->where(array('id' => $adminInfo['user_id']))->save($data);
+            $data1['error'] = 0;
+            $data1['url'] = U('Index/index');
             $this->ajaxReturn($data1);
 
-        }else{
-            $data['error']=1;
-            $data['msg']='帐号不存在或者被禁用';
+        } else {
+            $data['error'] = 1;
+            $data['msg'] = '帐号不存在或者被禁用';
             $this->ajaxReturn($data);
 
         }
     }
 
-    public function loginout(){
-        session('admin',null);
+    public function dologout()
+    {
+        session('admin', null);
         redirect(U('Login/index'));
     }
 }
