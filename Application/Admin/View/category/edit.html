@@ -1,0 +1,127 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<include file="public/head"/>
+<style type="text/css">
+    .table > thead > tr > th,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > tbody > tr > td,
+    .table > tfoot > tr > td {
+        padding: 8px;
+        line-height: 1.42857143;
+        vertical-align: middle;
+        text-align: center;
+        border-top: 1px solid #ddd
+    }
+
+    .pagination > .active > a,
+    .pagination > .active > span,
+    .pagination > .active > a:hover,
+    .pagination > .active > span:hover,
+    .pagination > .active > a:focus,
+    .pagination > .active > span:focus {
+        z-index: 2;
+        color: #fff;
+        cursor: default;
+        background-color: #428bca;
+        border-color: #428bca
+    }
+</style>
+<body>
+
+<div class="app" data-sidebar="locked">
+
+    <include file="public/top"/>
+
+    <section class="layout">
+
+        <include file="public/nav"/>
+
+
+        <section class="main-content">
+
+            <div class="content-wrap">
+                <div class="row mg-b">
+                    <div class="col-xs-6">
+                        <h3 class="no-margin"></h3>
+                        <h6><a href="__MODULE__" class="fa fa-home">首页</a>/<a href="">植物管理</a>/<a
+                                href="__CONTROLLER__">植物种类</a>/<a href="{:U('Category/add')}">编辑</a></h6>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <a href="__MODULE__/javascript:;" class="fa fa-th-list pull-right pd-sm toggle-sidebar"
+                           data-toggle="off-canvas" data-move="rtl">
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <section class="panel">
+                            <header class="panel-heading">
+
+                                添加植物种类(上传文件或输入图片url)
+
+                            </header>
+                            <div class="panel-body">
+
+                                <form class="form-horizontal bordered-group" role="form" method="post"
+                                      action="{:U('Category/edit',array('cate_id'=>$detail['cate_id']))}">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">种类名字</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="cate_name"
+                                                   value="{$detail.cate_name|default=''}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">上传图片</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="file">
+
+                                            <p class="help-block">Example block-level help text here.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">图片url</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="img"
+                                                   value="{$detail.img|default=''}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"></label>
+
+                                        <div class="col-sm-10">
+                                            <button type="submit" class="btn btn-success">保存</button>
+                                            <a class="btn btn-warning" href="{:U('index')}">取消</a>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+
+                                </form>
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <include file="public/bottom"/>
+        </section>
+
+    </section>
+
+
+</div>
+
+</body>
+
+</html>

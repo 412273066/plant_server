@@ -45,6 +45,34 @@ class CategoryController extends BaseController
         $this->display();
     }
 
+    public function edit($cate_id = 0)
+    {
+        $obj = D('category');
+
+        if ($cate_id = (int)$cate_id) {
+            if (!$detail = $obj->find($cate_id)) {
+                $this->error('请选择要编辑的种类');
+            }
+            if (IS_POST) {
+                $data = $this->editCheck();
+                $data['cate_id'] = $cate_id;
+
+                if ($obj->save($data)) {
+                    $this->success('操作成功', U('Category/index'));
+                    return;
+                } else {
+                    $this->error('操作失败');
+                    return;
+                }
+            } else {
+                $this->assign('detail', $detail);
+                $this->display();
+            }
+        } else {
+            $this->error('请选择要编辑的种类');
+        }
+    }
+
     public function del()
     {
         $category = D('category');
@@ -70,7 +98,7 @@ class CategoryController extends BaseController
         }
         $data['create_time'] = $create_time;
         $data['img'] = I('post.img');
-        $data['user_id'] = I('post.user_id', 4);
+        $data['user_id'] = I('post.user_id', I(session, 'admin')->user_id);
 
 
         return $data;
@@ -85,4 +113,23 @@ class CategoryController extends BaseController
         }
         return $data;
     }
+
+    private function editCheck()
+    {
+
+        $param = I('post.');
+        $data = $this->checkFields($param['data'], $this->create_fields);
+        $create_time = strtotime(date("Y-m-d H:i:s", time()));
+        $data['cate_name'] = $_POST['cate_name'];
+        if ($data['cate_name'] == null) {
+            $this->error('名字不能为空');
+            return;
+        }
+        $data['create_time'] = $create_time;
+        $data['img'] = I('post.img');
+        $data['user_id'] = I('session.admin')['user_id'];
+
+        return $data;
+    }
+
 }

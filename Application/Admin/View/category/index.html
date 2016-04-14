@@ -93,7 +93,7 @@
                                             <td>{$vo.create_time|date="Y-m-d H:m:s",###}</td>
                                             <td>{$vo.user_id}</td>
                                             <td>
-                                                <a href="{:U('Category/del'),array('cate_id'=>$vo['cate_id'])}"
+                                                <a href="{:U('Category/edit',array('cate_id'=>$vo['cate_id']))}"
                                                    class="btn btn-primary">编辑</a>
                                                 <a onClick="return confirm('是否删除此条记录')"
                                                    href="{:U('Category/del',array('cate_id'=>$vo['cate_id']))}"

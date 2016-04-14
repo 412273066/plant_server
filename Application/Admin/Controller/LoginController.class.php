@@ -33,7 +33,7 @@ class LoginController extends BaseController
         $adminInfo = $admin->where($map)->find();
 
         if ($adminInfo) {
-             //注意回车空格
+            //注意回车空格
             if ($adminInfo['password'] != $password) {
                 $data['error'] = 1;
                 $data['msg'] = '帐号密码不正确';
@@ -46,7 +46,7 @@ class LoginController extends BaseController
             $data = array();
             $data['last_login_time'] = time();
             $data['last_login_ip'] = "127.0.0.1";
-            $admin->where(array('id' => $adminInfo['user_id']))->save($data);
+            $admin->where(array('user_id' => $adminInfo['user_id']))->save($data);
             $data1['error'] = 0;
             $data1['url'] = U('Index/index');
             $this->ajaxReturn($data1);
