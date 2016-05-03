@@ -28,24 +28,35 @@ class CategoryController extends BaseController
 
     public function add()
     {
-        $obj = D('category');
-
         if (IS_POST) {
+
+            $obj = D('category');
+
             $data = $this->createData();
 
             if ($obj->add($data)) {
-                $this->success("保存成功", U('Category/index'));
+
+                $msg = uploadImg();
+
+                if ($msg != "1") {
+                    $this->error('上传失败！');
+                } else {
+                    $this->success("保存成功", U('Category/index'));
+                }
                 return;
             } else {
                 $this->error('操作失败！');
                 return;
             }
-        }
 
-        $this->display();
+
+        } else {
+            $this->display();
+        }
     }
 
-    public function edit($cate_id = 0)
+    public
+    function edit($cate_id = 0)
     {
         $obj = D('category');
 
@@ -73,7 +84,8 @@ class CategoryController extends BaseController
         }
     }
 
-    public function del()
+    public
+    function del()
     {
         $category = D('category');
         $cate_id = I('get.cate_id');
@@ -85,26 +97,32 @@ class CategoryController extends BaseController
         }
     }
 
-    private function createData()
+    private
+    function createData()
     {
 
         $param = I('post.');
         $data = $this->checkFields($param["data"], $this->create_fields);
         $create_time = strtotime(date("Y-m-d H:i:s", time()));
-        $data['cate_name'] = $_POST['cate_name'];
+        //类型的名字
+        $data['cate_name'] = I('post.cate_name');
         if ($data['cate_name'] == null) {
-            $this->error('名字不能为空');
+            $this->error('类型名字不能为空');
             return;
         }
+        //创建时间
         $data['create_time'] = $create_time;
+        //图片链接
         $data['img'] = I('post.img');
-        $data['user_id'] = I('post.user_id', I(session, 'admin')->user_id);
+        //管理员id
+        $data['user_id'] = I(session, 'admin')->user_id;
 
 
         return $data;
     }
 
-    protected function checkFields($data = array(), $fields = array())
+    protected
+    function checkFields($data = array(), $fields = array())
     {
         foreach ($data as $k => $val) {
             if (!in_array($k, $fields)) {
@@ -114,7 +132,8 @@ class CategoryController extends BaseController
         return $data;
     }
 
-    private function editCheck()
+    private
+    function editCheck()
     {
 
         $param = I('post.');
@@ -131,5 +150,6 @@ class CategoryController extends BaseController
 
         return $data;
     }
+
 
 }

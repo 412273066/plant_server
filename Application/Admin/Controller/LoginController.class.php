@@ -26,6 +26,7 @@ class LoginController extends BaseController
         $map = array();
         $map['user'] = $user;
         $map['status'] = 1;
+        $map['_string'] = 'power_id=1 OR power_id=4';
 
         $admin = D('user');
 
@@ -33,7 +34,7 @@ class LoginController extends BaseController
         $adminInfo = $admin->where($map)->find();
 
         if ($adminInfo) {
-            //注意回车空格
+            //注意密码最后包含回车空格
             if ($adminInfo['password'] != $password) {
                 $data['error'] = 1;
                 $data['msg'] = '帐号密码不正确';
