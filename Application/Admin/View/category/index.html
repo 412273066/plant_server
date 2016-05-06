@@ -96,7 +96,7 @@
                                                 <a href="{:U('Category/edit',array('cate_id'=>$vo['cate_id']))}"
                                                    class="btn btn-primary">编辑</a>
                                                 <a onClick="return confirm('是否删除此条记录')"
-                                                   href="{:U('Category/del',array('cate_id'=>$vo['cate_id']))}"
+                                                   href="{:U('Category/del',array('cate_id'=>$vo['cate_id'],'page'=>$_GET['p']))}"
                                                    class="btn btn-danger">删除</a>
                                             </td>
                                         </tr>
