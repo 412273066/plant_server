@@ -1,0 +1,214 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<include file="public/head"/>
+<script src="__PUBLIC__/admin/vendor/jquery-1.11.1.min.js"></script>
+<style type="text/css">
+    .table > thead > tr > th,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > tbody > tr > td,
+    .table > tfoot > tr > td {
+        padding: 8px;
+        line-height: 1.42857143;
+        vertical-align: middle;
+        text-align: center;
+        border-top: 1px solid #ddd
+    }
+
+    .pagination > .active > a,
+    .pagination > .active > span,
+    .pagination > .active > a:hover,
+    .pagination > .active > span:hover,
+    .pagination > .active > a:focus,
+    .pagination > .active > span:focus {
+        z-index: 2;
+        color: #fff;
+        cursor: default;
+        background-color: #428bca;
+        border-color: #428bca
+    }
+</style>
+<script>
+    $(function () {
+        $("#btn_add").click(function () {
+
+            var img = $('#image').val();
+            var plant_name = $('#plant_name').val();
+
+            if ($.trim(plant_name) == "") {
+
+                alert('请输入种类的名字');
+                return false;
+            }
+
+
+            if ($.trim(img) == "") {
+
+                alert('请选择图片上传');
+                return false;
+            }
+//            $.ajax({
+//                url: '__CONTROLLER__/dologin',
+//                type: "post",
+//                data: {
+//                    'user': u,
+//                    'password': p
+//                },
+//                dataType: 'json',
+//                error: function () {
+//
+//                    alert('无法访问数据库，请检查你的数据库配置');
+//                },
+//                success: function (data) {
+//
+//                    if (data.error == 0) {
+//
+//                        location.href = data.url;
+//
+//                    } else {
+//                        alert(data.msg);
+//                    }
+//                }
+//            });
+        });
+    });
+
+
+</script>
+
+<body>
+
+<div class="app" data-sidebar="locked">
+
+    <include file="public/top"/>
+
+    <section class="layout">
+
+        <include file="public/nav"/>
+
+
+        <section class="main-content">
+
+            <div class="content-wrap">
+                <div class="row mg-b">
+                    <div class="col-xs-6">
+                        <h3 class="no-margin"></h3>
+                        <h6><a href="__MODULE__" class="fa fa-home">首页</a>/<a href="">植物管理</a>/<a
+                                href="__CONTROLLER__">植物列表</a>/<a href="{:U('Category/add')}">添加</a></h6>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <a href="__MODULE__/javascript:;" class="fa fa-th-list pull-right pd-sm toggle-sidebar"
+                           data-toggle="off-canvas" data-move="rtl">
+
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <section class="panel">
+                            <header class="panel-heading">
+
+                                添加新植物
+
+                            </header>
+                            <div class="panel-body">
+
+                                <form class="form-horizontal bordered-group" role="form" method="post"
+                                      enctype="multipart/form-data"
+                                      action="{:U('Plant/add')}">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">植物名字</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="plant_name" id="plant_name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">植物科属</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="plant_type" id="plant_type">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">植物分类</label>
+
+                                        <div class="col-sm-10">
+                                            <select class="form-control selectpicker"
+                                                    data-style="btn-primary btn-outline"
+                                                    name="cate_id" id="cate_id">
+                                                <option value="1">观花植物</option>
+                                                <option value="2">观叶植物</option>
+                                                <option value="3">室内植物</option>
+                                                <option value="4">草本植物</option>
+                                                <option value="5">木本植物</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">上传图片</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="file" name="img" id="image">
+
+                                            <p class="help-block">Example block-level help text here.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">植物介绍</label>
+
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" rows="3" name="plant_info"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">形态特征</label>
+
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" rows="3" name="plant_feature"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">生长习性</label>
+
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" rows="3" name="plant_habit"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">主要用途</label>
+
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" rows="3" name="plant_use"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"></label>
+
+                                        <div class="col-sm-10">
+                                            <button type="submit" class="btn btn-success" id="btn_add">添加</button>
+                                            <button type="reset" class="btn btn-warning">重置</button>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <include file="public/bottom"/>
+        </section>
+
+    </section>
+
+</div>
+
+</body>
+
+</html>
