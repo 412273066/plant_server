@@ -140,11 +140,9 @@
                                             <select class="form-control selectpicker"
                                                     data-style="btn-primary btn-outline"
                                                     name="cate_id" id="cate_id">
-                                                <option value="1">观花植物</option>
-                                                <option value="2">观叶植物</option>
-                                                <option value="3">室内植物</option>
-                                                <option value="4">草本植物</option>
-                                                <option value="5">木本植物</option>
+                                                <volist name="list" id="vo">
+                                                    <option value="{$vo.cate_id}">{$vo.cate_name}</option>
+                                                </volist>
                                             </select>
                                         </div>
                                     </div>

@@ -75,6 +75,20 @@ class CategoryController extends BaseController
                 $data = $this->editCheck();
                 $data['cate_id'] = $cate_id;
 
+                $msg = uploadImg('pic');
+
+                if ($msg == '0') {
+                    $this->error('上传失败！');
+
+                } else if ($msg == '1') {
+//                    $this->error('请选择图片上传！');
+
+                } else {
+                    // 图片上传成功
+                    $data['img'] = __ROOT__ . '/Uploads/' . $msg;
+
+                }
+
                 if ($obj->save($data)) {
                     $this->success('操作成功', U('Category/index'));
                     return;
@@ -149,17 +163,17 @@ class CategoryController extends BaseController
 
     private function editCheck()
     {
-
-        $param = I('post.');
-        $data = $this->checkFields($param['data'], $this->create_fields);
         $create_time = strtotime(date("Y-m-d H:i:s", time()));
-        $data['cate_name'] = $_POST['cate_name'];
+
+        $data = array();
+
+        $data['cate_name'] = I('post.cate_name');
         if ($data['cate_name'] == null) {
             $this->error('名字不能为空');
             return;
         }
         $data['create_time'] = $create_time;
-        $data['img'] = I('post.img');
+//        $data['img'] = I('post.pic');
         $data['user_id'] = I('session.admin')['user_id'];
 
         return $data;

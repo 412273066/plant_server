@@ -94,7 +94,7 @@
                                                     src="{$vo.plant_img}"
                                                     alt="{$vo.cate_name}" style="width:100px;height:100px">
                                             </td>
-                                            <td>{$vo.plant_create_time|date="Y-m-d H:m:s",###}</td>
+                                            <td>{$vo.plant_create_time|date="Y-m-d H:i:s",###}</td>
                                             <td>{$vo.plant_user_id}</td>
                                             <td>
                                                 <a href="{:U('Plant/edit',array('plant_id'=>$vo['plant_id']))}"

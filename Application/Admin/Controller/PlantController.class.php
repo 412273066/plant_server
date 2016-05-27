@@ -31,6 +31,11 @@ class PlantController extends BaseController
 
     public function add()
     {
+
+        $category = M('category');// 实例化Data数据模型
+        $list = $category->order('cate_id asc')->select();
+
+
         if (IS_POST) {
 
             $obj = D('plant');
@@ -52,15 +57,44 @@ class PlantController extends BaseController
             }
 
             if ($obj->add($data)) {
+                //添加成功跳到最后一页
+                $count = $obj->count();// 查询满足要求的总记录数
+                $last_page = $count % $this->pageSize > 0 ? $count / $this->pageSize + 1 : $count / $this->pageSize;//总共多少页
+
                 //添加数据成功
-                $this->success("添加成功", U('Plant/index'));
+                $this->success('添加成功', U('Plant/index?p=' . $last_page));
             } else {
                 //添加数据失败
                 $this->error('操作失败！');
             }
 
         } else {
+            $this->assign('list', $list);
             $this->display();
+        }
+    }
+
+    public function del()
+    {
+        $plant = D('plant');
+        $plant_id = I('get.plant_id');
+        $page = I('get.page');//当前页数
+
+        $result = $plant->where('plant_id =' . $plant_id . '')->delete();
+
+
+        if ($result) {
+
+            $count = $plant->count();// 查询满足要求的总记录数
+            $pageNum = $count % $this->pageSize > 0 ? $count / $this->pageSize + 1 : $count / $this->pageSize;//总共多少页
+            if ($page > $pageNum) {
+                //当前页数大于总页数时，设置当前页为最后一页
+                $page = $pageNum;
+            }
+
+            $this->success('删除成功', U('Plant/index?p=' . $page));
+        } else {
+            $this->error('删除失败');
         }
     }
 
