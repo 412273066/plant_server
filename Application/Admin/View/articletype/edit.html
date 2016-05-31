@@ -46,8 +46,8 @@
                 <div class="row mg-b">
                     <div class="col-xs-6">
                         <h3 class="no-margin"></h3>
-                        <h6><a href="__MODULE__" class="fa fa-home">首页</a>/<a href="">植物管理</a>/<a
-                                href="__CONTROLLER__">植物种类</a>/<a href="{:U('Category/add')}">编辑</a></h6>
+                        <h6><a href="__MODULE__" class="fa fa-home">首页</a>/<a href="">文章管理</a>/<a
+                                href="__CONTROLLER__">文章类型</a>/<a href="">编辑</a></h6>
                     </div>
                     <div class="col-xs-6 text-right">
                         <a href="__MODULE__/javascript:;" class="fa fa-th-list pull-right pd-sm toggle-sidebar"
@@ -62,20 +62,20 @@
                         <section class="panel">
                             <header class="panel-heading">
 
-                               编辑植物种类
+                                编辑文章类型
 
                             </header>
                             <div class="panel-body">
 
                                 <form class="form-horizontal bordered-group" role="form" method="post"
                                       enctype="multipart/form-data"
-                                      action="{:U('Category/edit',array('cate_id'=>$detail['cate_id']))}">
+                                      action="{:U('articleType/edit',array('type_id'=>$detail['type_id']))}">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">种类名字</label>
+                                        <label class="col-sm-2 control-label">类型名称</label>
 
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="cate_name"
-                                                   value="{$detail.cate_name|default=''}">
+                                            <input type="text" class="form-control" name="type_name"
+                                                   value="{$detail.type_name|default=''}">
                                         </div>
                                     </div>
                                     <div class="form-group">
