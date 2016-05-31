@@ -67,45 +67,43 @@ class CategoryController extends BaseController
     {
         $obj = D('category');
 
-        if ($cate_id = (int)$cate_id) {
-            if (!$detail = $obj->find($cate_id)) {
-                $this->error('请选择要编辑的种类');
-            }
-            if (IS_POST) {
-                $data = $this->editCheck();
-                $data['cate_id'] = $cate_id;
+        $cate_id = (int)$cate_id;
+        if (!$detail = $obj->find($cate_id)) {
+            $this->error('请选择要编辑的种类');
+        }
+        if (IS_POST) {
+            $data = $this->editCheck();
+            $data['cate_id'] = $cate_id;
 
-                $msg = uploadImg('pic');
+            $msg = uploadImg('pic');
 
-                if ($msg == '0') {
-                    $this->error('上传失败！');
+            if ($msg == '0') {
+                $this->error('上传失败！');
 
-                } else if ($msg == '1') {
+            } else if ($msg == '1') {
 //                    $this->error('请选择图片上传！');
 
-                } else {
-                    // 图片上传成功
-                    $data['img'] = __ROOT__ . '/Uploads/' . $msg;
-
-                }
-
-                if ($obj->save($data)) {
-                    $this->success('操作成功', U('Category/index'));
-                    return;
-                } else {
-                    $this->error('操作失败');
-                    return;
-                }
             } else {
-                $this->assign('detail', $detail);
-                $this->display();
+                // 图片上传成功
+                $data['img'] = __ROOT__ . '/Uploads/' . $msg;
+
+            }
+
+            if ($obj->save($data)) {
+                $this->success('操作成功', U('Category/index'));
+                return;
+            } else {
+                $this->error('操作失败');
+                return;
             }
         } else {
-            $this->error('请选择要编辑的种类');
+            $this->assign('detail', $detail);
+            $this->display();
         }
     }
 
-    public function del()
+    public
+    function del()
     {
         $category = D('category');
         $cate_id = I('get.cate_id');
@@ -129,7 +127,8 @@ class CategoryController extends BaseController
         }
     }
 
-    private function createData()
+    private
+    function createData()
     {
 
         $param = I('post.');
@@ -151,7 +150,8 @@ class CategoryController extends BaseController
         return $data;
     }
 
-    protected function checkFields($data = array(), $fields = array())
+    protected
+    function checkFields($data = array(), $fields = array())
     {
         foreach ($data as $k => $val) {
             if (!in_array($k, $fields)) {
@@ -161,7 +161,8 @@ class CategoryController extends BaseController
         return $data;
     }
 
-    private function editCheck()
+    private
+    function editCheck()
     {
         $create_time = strtotime(date("Y-m-d H:i:s", time()));
 

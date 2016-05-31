@@ -191,9 +191,9 @@
                     'password': p
                 },
                 dataType: 'json',
-                error: function () {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
 
-                    alert('无法访问数据库，请检查你的数据库配置');
+                    alert('请求失败,请重试!');
                 },
                 success: function (data) {
 

@@ -6,7 +6,15 @@ use Think\Controller;
 class PlantController extends BaseController
 {
 
-    private $create_fields = array('plant_name', 'type', 'info', 'feature', 'habit', 'use', 'cate_id', 'img');
+    /**
+     * @var int 添加请求
+     */
+    private $post_add = 1;
+    /**
+     * @var int 编辑请求
+     */
+    private $post_edit = 2;
+
     /*每页显示数量*/
     private $pageSize = 5;
 
@@ -40,7 +48,7 @@ class PlantController extends BaseController
 
             $obj = D('plant');
 
-            $data = $this->createData();
+            $data = $this->createData($this->post_add);
 
             $msg = uploadImg('img');
 
@@ -98,7 +106,51 @@ class PlantController extends BaseController
         }
     }
 
-    private function createData()
+    public function edit($plant_id = 0)
+    {
+        $category = M('category');// 实例化Data数据模型
+
+        $list = $category->order('cate_id asc')->select();
+
+        $obj = D('plant');
+
+        $plant_id = (int)$plant_id;
+        if (!$detail = $obj->find($plant_id)) {
+            $this->error('请选择要编辑的植物');
+        }
+        if (IS_POST) {
+            $data = $this->createData($this->post_edit);
+            $data['plant_id'] = $plant_id;
+
+            $msg = uploadImg('pic');
+
+            if ($msg == '0') {
+                $this->error('上传失败！');
+
+            } else if ($msg == '1') {
+//                    $this->error('请选择图片上传！');
+
+            } else {
+                // 图片上传成功
+                $data['img'] = __ROOT__ . '/Uploads/' . $msg;
+
+            }
+
+            if ($obj->save($data)) {
+                $this->success('操作成功', U('Plant/index'));
+                return;
+            } else {
+                $this->error('操作失败');
+                return;
+            }
+        } else {
+            $this->assign('list', $list);
+            $this->assign('detail', $detail);
+            $this->display();
+        }
+    }
+
+    private function createData($post_type)
     {
 
         $data = array();
@@ -112,8 +164,11 @@ class PlantController extends BaseController
         //创建时间
         $create_time = strtotime(date("Y-m-d H:i:s", time()));
         $data['create_time'] = $create_time;
-        //图片链接
-        $data['img'] = I('post.img');
+
+        if ($post_type != $this->post_edit) {
+            //图片链接
+            $data['img'] = I('post.img');
+        }
         //管理员id
         $data['user_id'] = I('session.admin')['user_id'];
         //植物科属
@@ -128,7 +183,6 @@ class PlantController extends BaseController
         $data['use'] = I('post.plant_use');
         //植物分类
         $data['cate_id'] = I('post.cate_id');
-
 
         return $data;
     }
