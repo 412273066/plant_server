@@ -40,9 +40,6 @@ class PlantController extends BaseController
     public function add()
     {
 
-        $category = M('category');// 实例化Data数据模型
-        $list = $category->order('cate_id asc')->select();
-
 
         if (IS_POST) {
 
@@ -77,6 +74,8 @@ class PlantController extends BaseController
             }
 
         } else {
+            $category = M('category');// 实例化Data数据模型
+            $list = $category->order('cate_id asc')->select();
             $this->assign('list', $list);
             $this->display();
         }

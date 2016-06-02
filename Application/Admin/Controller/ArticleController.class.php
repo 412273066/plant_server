@@ -32,7 +32,7 @@ class ArticleController extends BaseController
     {
         if (IS_POST) {
 
-            $obj = D('type');
+            $obj = D('article');
 
             $data = $this->createData();
 
@@ -50,13 +50,16 @@ class ArticleController extends BaseController
 
             if ($obj->add($data)) {
                 //添加数据成功
-                $this->success("添加成功", U('articleType/index'));
+                $this->success("添加成功", U('article/index'));
             } else {
                 //添加数据失败
                 $this->error('操作失败！');
             }
 
         } else {
+            $category = M('type');// 实例化Data数据模型
+            $list = $category->order('type_id asc')->select();
+            $this->assign('list', $list);
             $this->display();
         }
     }
@@ -103,11 +106,11 @@ class ArticleController extends BaseController
     public
     function del()
     {
-        $type = D('type');
-        $type_id = I('get.type_id');
+        $type = D('article');
+        $article_id = I('get.article_id');
         $page = I('get.page');//当前页数
 
-        $result = $type->where('type_id =' . $type_id . '')->delete();
+        $result = $type->where('article_id =' . $article_id . '')->delete();
 
 
         if ($result) {
@@ -119,7 +122,7 @@ class ArticleController extends BaseController
                 $page = $pageNum;
             }
 
-            $this->success('删除成功', U('articleType/index?p=' . $page));
+            $this->success('删除成功', U('article/index?p=' . $page));
         } else {
             $this->error('删除失败');
         }
@@ -131,10 +134,10 @@ class ArticleController extends BaseController
 
         $data = array();
         $create_time = strtotime(date("Y-m-d H:i:s", time()));
-        //类型的名字
-        $data['type_name'] = I('post.type_name');
-        if ($data['type_name'] == null) {
-            $this->error('类型名称不能为空');
+        //标题
+        $data['title'] = I('post.article_title');
+        if ($data['title'] == null) {
+            $this->error('文章标题不能为空');
             return;
         }
         //创建时间
@@ -143,6 +146,19 @@ class ArticleController extends BaseController
 //        $data['img'] = I('post.img');
         //管理员id
         $data['user_id'] = I('session.admin')['user_id'];
+//摘要
+        $data['summary'] = I('post.article_summary');
+//内容 默认标签htmlspecialchars转义，须对标签解码才能显示
+        $data['content'] ='<html><head><title></title></head><body>'. htmlspecialchars_decode(I('post.article_content')).'</body></html>';
+//作者
+        $data['author'] = I('post.article_author');
+//文章类型
+        $data['type_id'] = I('post.type_id');
+//作者
+        $data['author'] = I('post.article_author');
+//关键字
+        $data['keywords'] = I('post.article_keywords');
+
 
         return $data;
     }

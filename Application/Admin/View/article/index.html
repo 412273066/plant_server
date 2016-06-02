@@ -100,7 +100,7 @@
                                                 <a href="{:U('articleType/edit',array('type_id'=>$vo['type_id']))}"
                                                    class="btn btn-primary">编辑</a>
                                                 <a onClick="return confirm('是否删除此条记录')"
-                                                   href="{:U('articleType/del',array('type_id'=>$vo['type_id'],'page'=>$_GET['p']))}"
+                                                   href="{:U('article/del',array('article_id'=>$vo['article_id'],'page'=>$_GET['p']))}"
                                                    class="btn btn-danger">删除</a>
                                             </td>
                                         </tr>
