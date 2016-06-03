@@ -64,17 +64,13 @@ class ArticleController extends BaseController
         }
     }
 
-    public function edit($type_id = 0)
+    public function edit($article_id = 0)
     {
-        $obj = D('type');
+        $obj = D('article');
 
-        $type_id = (int)$type_id;
-        if (!$detail = $obj->find($type_id)) {
-            $this->error('请选择要编辑的类型');
-        }
         if (IS_POST) {
             $data = $this->createData();
-            $data['type_id'] = $type_id;
+            $data['article_id'] = $article_id;
 
             $msg = uploadImg('pic');
 
@@ -91,13 +87,22 @@ class ArticleController extends BaseController
             }
 
             if ($obj->save($data)) {
-                $this->success('操作成功', U('articleType/index'));
+                $this->success('操作成功', U('article/index'));
                 return;
             } else {
                 $this->error('操作失败');
                 return;
             }
         } else {
+            $type = M('type');// 实例化Data数据模型
+            $list = $type->order('type_id asc')->select();
+
+            $article_id = (int)$article_id;
+            if (!$detail = $obj->find($article_id)) {
+                $this->error('请选择要编辑的文章');
+            }
+
+            $this->assign('list', $list);
             $this->assign('detail', $detail);
             $this->display();
         }
@@ -149,7 +154,7 @@ class ArticleController extends BaseController
 //摘要
         $data['summary'] = I('post.article_summary');
 //内容 默认标签htmlspecialchars转义，须对标签解码才能显示
-        $data['content'] ='<html><head><title></title></head><body>'. htmlspecialchars_decode(I('post.article_content')).'</body></html>';
+        $data['content'] = '<html><head><title></title></head><body>' . htmlspecialchars_decode(I('post.article_content')) . '</body></html>';
 //作者
         $data['author'] = I('post.article_author');
 //文章类型
