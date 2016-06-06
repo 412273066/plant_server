@@ -5,7 +5,6 @@ use Think\Controller;
 
 class ArticleController extends BaseController
 {
-    private $create_fields = array('cate_name', 'img', 'user_id', 'create_time');
     /*每页显示数量*/
     private $pageSize = 5;
 
