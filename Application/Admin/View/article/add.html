@@ -3,6 +3,12 @@
 
 <include file="public/head"/>
 <script src="__PUBLIC__/admin/vendor/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/ueditor.parse.min.js"></script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Common/Ueditor/lang/zh-cn/zh-cn.js"></script>
 <style type="text/css">
     .table > thead > tr > th,
     .table > tbody > tr > th,
@@ -32,6 +38,9 @@
 </style>
 
 <script>
+
+    var ue = UE.getEditor('container');
+
     var $jq = jQuery.noConflict(); //将变量$的控制权移交
 
     $jq(function () {
@@ -63,6 +72,7 @@
 
 
         });
+
 
     });
 
@@ -172,140 +182,17 @@
                                         <label class="col-sm-2 control-label">文章内容</label>
 
                                         <div class="col-sm-6">
-                                            <div id="alerts"></div>
-                                            <div class="btn-toolbar mg-b" data-role="editor-toolbar"
-                                                 data-target="#editor">
-                                                <div class="btn-group">
-                                                    <a class="btn btn-default btn-sm dropdown-toggle"
-                                                       data-toggle="dropdown" title="Font">
-                                                        <i class="fa fa-font"></i>
-                                                        <b class="caret"></b>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                    </ul>
-                                                </div>
-                                                <div class="btn-group">
-                                                    <a class="btn btn-default btn-sm dropdown-toggle"
-                                                       data-toggle="dropdown" title="Font Size">
-                                                        <i class="fa fa-text-height"></i>&nbsp;
-                                                        <b class="caret"></b>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li>
-                                                            <a data-edit="fontSize 5">
-                                                                <span class="h2">Huge</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a data-edit="fontSize 3">
-                                                                <span class="h4">Normal</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a data-edit="fontSize 1">
-                                                                <span class="h6">Small</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="btn-group">
-                                                    <a class="btn btn-default btn-sm" data-edit="bold"
-                                                       title="Bold (Ctrl/Cmd+B)">
-                                                        <i class="fa fa-bold"></i>
-                                                    </a>
-                                                    <a class="btn btn-default btn-sm" data-edit="italic"
-                                                       title="Italic (Ctrl/Cmd+I)">
-                                                        <i class="fa fa-italic"></i>
-                                                    </a>
-                                                    <a class="btn btn-default btn-sm" data-edit="strikethrough"
-                                                       title="Strikethrough">
-                                                        <i class="fa fa-strikethrough"></i>
-                                                    </a>
-                                                    <a class="btn btn-default btn-sm" data-edit="underline"
-                                                       title="Underline (Ctrl/Cmd+U)">
-                                                        <i class="fa fa-underline"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="btn-group">
-                                                    <a class="btn btn-default btn-sm" data-edit="insertunorderedlist"
-                                                       title="Bullet list">
-                                                        <i class="fa fa-list-ul"></i>
-                                                    </a>
-                                                    <a class="btn btn-default btn-sm" data-edit="insertorderedlist"
-                                                       title="Number list">
-                                                        <i class="fa fa-list-ol"></i>
-                                                    </a>
-                                                    <a class="btn btn-default btn-sm" data-edit="outdent"
-                                                       title="Reduce indent (Shift+Tab)">
-                                                        <i class="fa fa-dedent"></i>
-                                                    </a>
-                                                    <a class="btn btn-default btn-sm" data-edit="indent"
-                                                       title="Indent (Tab)">
-                                                        <i class="fa fa-indent"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="btn-group">
-                                                    <a class="btn btn-default btn-sm" data-edit="justifyleft"
-                                                       title="Align Left (Ctrl/Cmd+L)">
-                                                        <i class="fa fa-align-left"></i>
-                                                    </a>
-                                                    <a class="btn btn-default btn-sm" data-edit="justifycenter"
-                                                       title="Center (Ctrl/Cmd+E)">
-                                                        <i class="fa fa-align-center"></i>
-                                                    </a>
-                                                    <a class="btn btn-default btn-sm" data-edit="justifyright"
-                                                       title="Align Right (Ctrl/Cmd+R)">
-                                                        <i class="fa fa-align-right"></i>
-                                                    </a>
-                                                    <a class="btn btn-default btn-sm" data-edit="justifyfull"
-                                                       title="Justify (Ctrl/Cmd+J)">
-                                                        <i class="fa fa-align-justify"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="btn-group">
-                                                    <a class="btn btn-default btn-sm dropdown-toggle"
-                                                       data-toggle="dropdown" title="Hyperlink">
-                                                        <i class="fa fa-link"></i>
-                                                    </a>
+                                            <!-- 加载编辑器的容器 -->
+                                            <script id="container" name="content" type="text/plain"
+                                                    style=" height:300px">
 
-                                                    <div class="dropdown-menu input-append">
-                                                        <input class="span2" placeholder="URL" type="text"
-                                                               data-edit="createLink"/>
-                                                        <button class="btn btn-default btn-sm" type="button">Add
-                                                        </button>
-                                                    </div>
-                                                    <a class="btn btn-default btn-sm" data-edit="unlink"
-                                                       title="Remove Hyperlink">
-                                                        <i class="fa fa-cut"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="btn-group pull-left">
-                                                    <a class="btn btn-default btn-sm"
-                                                       title="Insert picture (or just drag & drop)" id="pictureBtn">
-                                                        <i class="fa fa-picture-o"></i>
-                                                    </a>
-                                                    <input type="file" data-role="magic-overlay"
-                                                           data-target="#pictureBtn" data-edit="insertImage"/>
-                                                </div>
-                                                <div class="btn-group">
-                                                    <a class="btn btn-default btn-sm" data-edit="undo"
-                                                       title="Undo (Ctrl/Cmd+Z)">
-                                                        <i class="fa fa-undo"></i>
-                                                    </a>
-                                                    <a class="btn btn-default btn-sm" data-edit="redo"
-                                                       title="Redo (Ctrl/Cmd+Y)">
-                                                        <i class="fa fa-repeat"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div id="editor" class="form-control" contenteditable="true"
-                                                 style="overflow:scroll; height:300px">
 
-                                            </div>
-                                            <input type="hidden" class="form-control" name="article_content"
-                                                   id="article_content">
+                                            </script>
                                         </div>
+                                        <input type="hidden" class="form-control" name="article_content"
+                                               id="article_content">
                                     </div>
+
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label"></label>
