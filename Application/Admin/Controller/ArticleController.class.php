@@ -153,7 +153,7 @@ class ArticleController extends BaseController
 //摘要
         $data['summary'] = I('post.article_summary');
 //内容 默认标签htmlspecialchars转义，须对标签解码才能显示
-        $data['content'] = '<html><head><title></title></head><body>' . htmlspecialchars_decode(I('post.article_content')) . '</body></html>';
+        $data['content'] = htmlspecialchars_decode(I('post.article_content'));
 //作者
         $data['author'] = I('post.article_author');
 //文章类型

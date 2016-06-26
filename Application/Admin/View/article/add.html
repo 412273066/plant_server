@@ -64,11 +64,11 @@
                 return false;
             }
 
-            var article_content = $jq('#article_content');
-
-            var content = $jq('#editor').html();
-
-            article_content.val(content);
+//            var article_content = $jq('#article_content');
+//
+//            var content = $jq('#editor').html();
+//
+//            article_content.val(content);
 
 
         });
@@ -183,14 +183,12 @@
 
                                         <div class="col-sm-6">
                                             <!-- 加载编辑器的容器 -->
-                                            <script id="container" name="content" type="text/plain"
+                                            <script id="container" name="article_content" type="text/plain"
                                                     style=" height:300px">
 
 
                                             </script>
                                         </div>
-                                        <input type="hidden" class="form-control" name="article_content"
-                                               id="article_content">
                                     </div>
 
 
