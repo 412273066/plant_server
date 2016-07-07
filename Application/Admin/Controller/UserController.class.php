@@ -17,7 +17,7 @@ class UserController extends BaseController
         $Page = new \Admin\Lib\Page($count, $this->pageSize);// 实例化分页类 传入总记录数和每页显示的记录数(5)
         $show = $Page->show();// 分页显示输出
 // 进行分页数据查询 注意limit方法的参数要使用Page类的属性
-        $list = $user->field('web_user.user_id,user,username,img,sex,web_power.name,web_user.create_time,last_login_time,last_login_ip,status')->join('LEFT JOIN web_power ON web_user.power_id = web_power.power_id')->order('user_id asc')->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        $list = $user->field('web_user.user_id,user,nickname,img,sex,web_power.name,web_user.create_time,last_login_time,last_login_ip,status')->join('LEFT JOIN web_power ON web_user.power_id = web_power.power_id')->order('user_id asc')->limit($Page->firstRow . ',' . $Page->listRows)->select();
 
 //        $list = $category->order('cate_id asc')->select();
 
