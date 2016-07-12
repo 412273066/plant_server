@@ -59,5 +59,14 @@ function isMobile($mobile)
     return preg_match('#^13[\d]{9}$|^14[5,7]{1}\d{8}$|^15[^4]{1}\d{8}$|^17[0,6,7,8]{1}\d{8}$|^18[\d]{9}$#', $mobile) ? true : false;
 }
 
+/**
+ * 检测输入的验证码是否正确，$code为用户输入的验证码字符串
+ *
+ */
+function check_verify($code, $id = '')
+{
+    $verify = new \Think\Verify();
+    return $verify->check($code, $id);
+}
 
 ?>

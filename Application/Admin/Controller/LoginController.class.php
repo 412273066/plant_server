@@ -11,11 +11,28 @@ class LoginController extends BaseController
         $this->display();
     }
 
+    /**
+     * 生成验证码
+     */
+    function verify()
+    {
+        $config = array(
+            'fontSize' => 40,    // 验证码字体大小
+            'length' => 4,     // 验证码位数
+            'useImgBg' => false, //不使用背景图片
+            'reset' => false,           // 验证成功后是否重置
+        );
+        $Verify = new \Think\Verify($config);
+        $Verify->entry();
+    }
+
+
     public function dologin()
     {
 
         $user = I('post.user');
         $password = md5(I('post.password'));
+        $code = I('post.code');
 
         if (empty($user) || empty($password)) {
             $data['error'] = 1;
@@ -23,6 +40,12 @@ class LoginController extends BaseController
             $this->ajaxReturn($data);
 
         }
+        if (!check_verify($code)) {
+            $data['error'] = 1;
+            $data['msg'] = "验证码错误。。";
+            $this->ajaxReturn($data);
+        }
+
         $map = array();
         $map['user'] = $user;
         $map['status'] = 1;

@@ -9,45 +9,30 @@ class UserController extends Controller
     {
 
         if (IS_POST) {
-            $requestJson = $_POST['json'];  // 获取post变量
+            $requestJson = $_POST['json'];
+            // 获取post变量
 //            $requestJson = I('json',"","strip_tags");  // 必须加strip_tags获取post变量
-
-            $str = json_decode($requestJson, true);
-
-            if (json_last_error() != 0) {
-                $json = createJson(0, "提交数据格式出错!", "提交数据必须json格式!", null);
-
-                echo($json);
-
-                return;
-            } else {
-                $msg = $this->checkData($str);
-                $data = $this->createData($str);
-            }
-
-
         } else {
             // echo('请用post方法请求<br>');
             $requestJson = $_GET['json'];//获取get变量
+        }
 
-            $str = json_decode($requestJson, true);
+        $str = json_decode($requestJson, true);
 
+        if (json_last_error() != 0) {
+            $json = createJson(0, "提交数据格式出错!", "提交数据必须json格式!", null);
 
-            if (json_last_error() != 0) {
-                $json = createJson(0, "提交数据格式出错!", "提交数据必须json格式!", null);
+            echo($json);
 
-                echo($json);
-                return;
-            } else {
-                $msg = $this->checkData($str);
-                $data = $this->createData($str);
-            }
-//            return;
+            return;
+        } else {
+            $msg = $this->checkData($str);
+            $data = $this->createData($str);
         }
 
 
         if (!empty($msg)) {
-            $json = createJson(0, "注册失败!", $msg, null);
+            $json = createJson(0, $msg, "注册失败!" . $msg, null);
             echo($json);
             return;
         }
@@ -67,6 +52,75 @@ class UserController extends Controller
 
         echo($json);
     }
+
+    public function login()
+    {
+        if (IS_POST) {
+            $requestJson = $_POST['json'];  // 获取post变量
+        } else {
+            // echo('请用post方法请求<br>');
+            $requestJson = $_GET['json'];//获取get变量
+        }
+//      $requestJson = I('json',"","strip_tags");  // 必须加strip_tags获取post变量
+
+        $str = json_decode($requestJson, true);
+
+        if (json_last_error() != 0) {
+            $json = createJson(0, "提交数据格式出错!", "提交数据必须json格式!", null);
+
+            echo($json);
+
+            return;
+        } else {
+            $data = array();
+            //账号
+            $data['user'] = $str['user'];
+            //客户端权限
+            $data['_string'] = 'power_id=2 OR power_id=3';
+            //账户状态
+            $data['status'] = 1;
+            //密码
+            $password = md5($str['password']);
+        }
+
+        if (empty($data['user'])) {
+            $json = createJson(0, '请输入账号', "登录失败!，请输入账号", null);
+            echo($json);
+            return;
+        }
+        if (empty($password)) {
+            $json = createJson(0, '请输入密码', "登录失败!，请输入密码", null);
+            echo($json);
+            return;
+        }
+
+        $user = D('user');
+
+        $userInfo = $user->where($data)->find();
+
+        if ($userInfo) {
+            //注意密码最后包含回车空格
+            if ($userInfo['password'] != $password) {
+                $json = createJson(0, '密码不正确', "登录失败!密码不正确。", null);
+                echo($json);
+                return;
+            }
+
+            $data['last_login_time'] = time();
+//          $data['last_login_ip'] = "127.0.0.1";
+            $user->where(array('user_id' => $userInfo['user_id']))->save($data);
+            $json = createJson(1, '登录成功。', '登录成功。', null);
+            echo($json);
+
+        } else {
+            $json = createJson(0, '账号不存在或被禁用', "登录失败!账号不存在或被禁用。", null);
+            echo($json);
+            return;
+
+        }
+
+    }
+
 
     private function checkData($str)
     {
