@@ -11,43 +11,26 @@ class PlantController extends Controller
         if (IS_POST) {
             $requestJson = $_POST['json'];  // 获取post变量
 //            $requestJson = I('json',"","strip_tags");  // 必须加strip_tags获取post变量
-
-
-            $str = json_decode($requestJson, true);
-
-
-            if (json_last_error() != 0) {
-                $json = createJson(0, "提交数据格式出错!", "提交数据必须json格式!", null);
-
-                echo($json);
-                return;
-            } else {
-                $cate_id = $str['categoryId'];
-                $page = $str['page'];
-                $size = $str['size'];
-
-            }
-
-
         } else {
             // echo('请用post方法请求<br>');
             $requestJson = $_GET['json'];//获取get变量
-
-            $str = json_decode($requestJson, true);
-
-
-            if (json_last_error() != 0) {
-                $json = createJson(0, "提交数据格式出错!", "提交数据必须json格式!", null);
-
-                echo($json);
-                return;
-            } else {
-                $cate_id = $str['categoryId'];
-                $page = $str['page'];
-                $size = $str['size'];
-            }
-//            return;
         }
+
+        $str = json_decode($requestJson, true);
+
+
+        if (json_last_error() != 0) {
+            $json = createJson(0, "提交数据格式出错!", "提交数据必须json格式!", null);
+
+            echo($json);
+            return;
+        } else {
+            $cate_id = $str['categoryId'];
+            $page = $str['page'];
+            $size = $str['size'];
+
+        }
+
 
 //        echo(var_dump(I('post.')));
         if (!isset($cate_id)) {
@@ -68,7 +51,7 @@ class PlantController extends Controller
 
 
         $plant = M('plant');// 实例化Data数据模型
-        $list = $plant->where('cate_id='.$cate_id)->page($page, $size)->select();
+        $list = $plant->where('cate_id=' . $cate_id)->page($page, $size)->select();
 
         if (count($list) > 0) {
 

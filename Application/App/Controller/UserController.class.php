@@ -76,7 +76,7 @@ class UserController extends Controller
             //账号
             $data['user'] = $str['user'];
             //客户端权限
-            $data['_string'] = 'power_id=2 OR power_id=3';
+            $data['_string'] = 'web_user.power_id=2 OR web_user.power_id=3';
             //账户状态
             $data['status'] = 1;
             //密码
@@ -96,7 +96,7 @@ class UserController extends Controller
 
         $user = D('user');
 
-        $userInfo = $user->where($data)->find();
+        $userInfo = $user->join('LEFT JOIN web_power ON web_user.power_id = web_power.power_id')->where($data)->field('user,password,nickname,sex,img,name')->find();
 
         if ($userInfo) {
             //注意密码最后包含回车空格
@@ -109,7 +109,7 @@ class UserController extends Controller
             $data['last_login_time'] = time();
 //          $data['last_login_ip'] = "127.0.0.1";
             $user->where(array('user_id' => $userInfo['user_id']))->save($data);
-            $json = createJson(1, '登录成功。', '登录成功。', null);
+            $json = createJson(1, '登录成功。', '登录成功。', $userInfo);
             echo($json);
 
         } else {
